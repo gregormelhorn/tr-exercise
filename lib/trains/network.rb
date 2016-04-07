@@ -1,5 +1,7 @@
 module Trains
   class Network < Array
+    class RouteNotFound < StandardError;end
+
     attr_reader :routes
 
     def initialize data
@@ -30,17 +32,28 @@ module Trains
       @routes.find{|route| route.from == from and route.to == to}
     end
 
-    def total_distance *cities
-      distance = 0
+    def distance *cities
+      begin
+        return get_path(*cities).distance
+      rescue RouteNotFound
+        return Float::INFINITY
+      end
+    end
+
+protected
+
+    def get_path *cities
+      @path = Path.new
 
       while (from = cities.shift) and cities.length > 0
         to = cities.first
         route = find_route from, to
-        return Float::INFINITY unless route
-        distance = distance + route.distance
+        raise RouteNotFound.new("could not find route between #{from} and #{to}") unless route
+        @path << route
       end
 
-      distance
+      @path
     end
+
   end
 end
