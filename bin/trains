@@ -9,7 +9,7 @@ puts "Output #2: #{network.distance('A', 'D')}"
 puts "Output #3: #{network.distance('A', 'D', 'C')}"
 puts "Output #4: #{network.distance('A', 'E', 'B', 'C', 'D')}"
 if network.distance('A', 'E', 'D') == Float::INFINITY
-  puts "Output #5: ROUTE NOT FOUND"
+  puts "Output #5: NO SUCH ROUTE"
 end
 puts "Output #6: #{network.find_max_stops('C', 'C', 3).length}"
 puts "Output #7: #{network.find_exact_stops('A', 'C', 4).length}"
