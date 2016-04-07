@@ -13,21 +13,21 @@ module Trains
       push from unless self.include? from
       push to unless self.include? to
 
-      @routes.push from: from, to: to, distance: distance
+      @routes.push Route.new(from, to, distance)
     end
 
     def neighbors city
       neighbors = []
 
       @routes.each do |route|
-        neighbors.push route[:to] if route[:from] == city
+        neighbors.push route.to if route.from == city
       end
 
       return neighbors.uniq
     end
 
     def find_route(from, to)
-      @routes.find{|route| route[:from] == from and route[:to] == to}
+      @routes.find{|route| route.from == from and route.to == to}
     end
 
     def total_distance *cities
@@ -37,7 +37,7 @@ module Trains
         to = cities.first
         route = find_route from, to
         return Float::INFINITY unless route
-        distance = distance + route[:distance]
+        distance = distance + route.distance
       end
 
       distance

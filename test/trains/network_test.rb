@@ -7,12 +7,12 @@ class NetworkTest < Minitest::Test
 
   def test_scan_data
     assert_equal 9, @network.routes.length
-    assert_equal({from: 'A', to: 'B', distance: 5}, @network.routes.first)
-    assert_equal({from: 'A', to: 'E', distance: 7}, @network.routes.last)
+    assert_equal(Route.new('A', 'B', 5), @network.routes.first)
+    assert_equal(Route.new('A', 'E', 7), @network.routes.last)
   end
 
   def test_neighbors
-    assert_equal ['B', 'D', "E"], @network.neighbors('A')
+    assert_equal ['B', 'D', 'E'], @network.neighbors('A')
     assert_equal ["C"], @network.neighbors('B')
     assert_equal ["D","E"], @network.neighbors('C')
     assert_equal ["C", "E"], @network.neighbors('D')
@@ -21,8 +21,8 @@ class NetworkTest < Minitest::Test
   end
 
   def test_find_route
-    assert_equal({from: 'A', to: 'B', distance: 5}, @network.find_route('A', 'B'))
-    assert_equal({from: 'A', to: 'E', distance: 7}, @network.find_route('A', 'E'))
+    assert_equal(Route.new('A', 'B', 5), @network.find_route('A', 'B'))
+    assert_equal(Route.new('A', 'E', 7), @network.find_route('A', 'E'))
   end
 
   def test_total_distance
