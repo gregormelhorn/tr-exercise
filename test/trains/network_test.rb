@@ -38,7 +38,7 @@ class NetworkTest < Minitest::Test
     assert_equal 3, paths.length
   end
 
-  def test_max_distance
+  def test_find_max_distance
     paths = @network.find_max_distance('C', 'C', 29)
     assert_equal 7, paths.length
   end
