@@ -11,13 +11,8 @@ class NetworkTest < Minitest::Test
     assert_equal(Route.new('A', 'E', 7), @network.routes.last)
   end
 
-  def test_neighbors
-    assert_equal ['B', 'D', 'E'], @network.neighbors('A')
-    assert_equal ["C"], @network.neighbors('B')
-    assert_equal ["D","E"], @network.neighbors('C')
-    assert_equal ["C", "E"], @network.neighbors('D')
-    assert_equal ["B"], @network.neighbors('E')
-    assert_equal [], @network.neighbors('F')
+  def test_neighbor_routes
+    assert_equal [Route.new('A', 'B', 5), Route.new('A', 'D', 5), Route.new('A', 'E', 7)], @network.neighbor_routes('A')
   end
 
   def test_find_route
@@ -31,5 +26,20 @@ class NetworkTest < Minitest::Test
     assert_equal 13, @network.distance('A', 'D', 'C')
     assert_equal 22, @network.distance('A', 'E', 'B', 'C', 'D')
     assert_equal Float::INFINITY, @network.distance('A', 'E', 'D')
+  end
+
+  def test_max_stops
+    paths = @network.find_max_stops('C', 'C', 3)
+    assert_equal 2, paths.length
+  end
+
+  def test_exact_stops
+    paths = @network.find_exact_stops('A', 'C', 4)
+    assert_equal 3, paths.length
+  end
+
+  def test_max_distance
+    paths = @network.find_max_distance('C', 'C', 29)
+    assert_equal 7, paths.length
   end
 end
