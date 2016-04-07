@@ -34,7 +34,15 @@ module Trains
 
     def distance *cities
       begin
-        return get_path(*cities).distance
+        path = Path.new
+
+        while (from = cities.shift) and cities.length > 0
+          to = cities.first
+          route = find_route from, to
+          raise RouteNotFound.new("could not find route between #{from} and #{to}") unless route
+          path << route
+        end
+        return path.distance
       rescue RouteNotFound
         return Float::INFINITY
       end
@@ -50,10 +58,11 @@ module Trains
         # check if this subpath is valid
         if yield(new_path)
 
-          # if we did reach the target city
+          # if we did reach the target city, add path to solutions
           if to == neighbor_route.to
             paths << new_path
           end
+          # get paths from all routes based on this one as well
           paths = paths + find_paths(neighbor_route.to, to, new_path, &block)
         end
       end
@@ -78,7 +87,6 @@ module Trains
       find_paths(from, to){|path| path.distance <= distance}
     end
 
-    # http://en.wikipedia.org/wiki/Dijkstra's_algorithm
     def shortest_path from, to
       distances = Hash.new Float::INFINITY
       cities = clone
@@ -109,19 +117,6 @@ protected
       cities.each do |city|
         raise RouteNotFound("could not find city #{city}, so no route was found") unless include? city
       end
-    end
-
-    def get_path *cities
-      @path = Path.new
-
-      while (from = cities.shift) and cities.length > 0
-        to = cities.first
-        route = find_route from, to
-        raise RouteNotFound.new("could not find route between #{from} and #{to}") unless route
-        @path << route
-      end
-
-      @path
     end
   end
 end
