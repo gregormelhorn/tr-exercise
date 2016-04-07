@@ -26,5 +26,9 @@ module Trains
       return neighbors.uniq
     end
 
+    def find_route(from, to)
+      @routes.find{|route| route[:from] == from and route[:to] == to}
+    end
+
   end
 end

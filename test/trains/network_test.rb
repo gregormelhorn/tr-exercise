@@ -19,4 +19,9 @@ class NetworkTest < Minitest::Test
     assert_equal ["B"], @network.neighbors('E')
     assert_equal [], @network.neighbors('F')
   end
+
+  def test_find_route
+    assert_equal({from: 'A', to: 'B', distance: 5}, @network.find_route('A', 'B'))
+    assert_equal({from: 'A', to: 'E', distance: 7}, @network.find_route('A', 'E'))
+  end
 end
