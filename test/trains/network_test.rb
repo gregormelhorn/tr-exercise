@@ -9,4 +9,11 @@ class NetworkTest < Minitest::Test
     assert_equal 2, @network.routes.length
     assert_equal({from: 'A', to: 'B', distance: 1}, @network.routes.first)
   end
+
+  def test_neighbors
+    assert_equal [], @network.neighbors('B')
+    assert_equal [], @network.neighbors('C')
+    assert_equal [], @network.neighbors('D')
+    assert_equal ['B', 'C'], @network.neighbors('A')
+  end
 end

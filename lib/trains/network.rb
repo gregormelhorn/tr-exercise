@@ -15,5 +15,16 @@ module Trains
 
       @routes.push from: from, to: to, distance: distance
     end
+
+    def neighbors city
+      neighbors = []
+
+      @routes.each do |route|
+        neighbors.push route[:to] if route[:from] == city
+      end
+
+      return neighbors.uniq
+    end
+
   end
 end
