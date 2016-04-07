@@ -24,4 +24,12 @@ class NetworkTest < Minitest::Test
     assert_equal({from: 'A', to: 'B', distance: 5}, @network.find_route('A', 'B'))
     assert_equal({from: 'A', to: 'E', distance: 7}, @network.find_route('A', 'E'))
   end
+
+  def test_total_distance
+    assert_equal 9, @network.total_distance('A', 'B', 'C')
+    assert_equal 5, @network.total_distance('A', 'D')
+    assert_equal 13, @network.total_distance('A', 'D', 'C')
+    assert_equal 22, @network.total_distance('A', 'E', 'B', 'C', 'D')
+    assert_equal Float::INFINITY, @network.total_distance('A', 'E', 'D')
+  end
 end

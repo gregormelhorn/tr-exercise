@@ -30,5 +30,17 @@ module Trains
       @routes.find{|route| route[:from] == from and route[:to] == to}
     end
 
+    def total_distance *cities
+      distance = 0
+
+      while (from = cities.shift) and cities.length > 0
+        to = cities.first
+        route = find_route from, to
+        return Float::INFINITY unless route
+        distance = distance + route[:distance]
+      end
+
+      distance
+    end
   end
 end
