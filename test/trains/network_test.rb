@@ -42,4 +42,12 @@ class NetworkTest < Minitest::Test
     paths = @network.find_max_distance('C', 'C', 29)
     assert_equal 7, paths.length
   end
+
+  def test_shortest_route_one
+    assert_equal 9, @network.shortest_path('A', 'C')
+  end
+
+  def test_shortest_route_two
+    assert_equal 9, @network.shortest_path('B', 'B')
+  end
 end

@@ -78,6 +78,31 @@ module Trains
       find_paths(from, to){|path| path.distance <= distance}
     end
 
+    # http://en.wikipedia.org/wiki/Dijkstra's_algorithm
+    def shortest_path from, to
+      distances = Hash.new Float::INFINITY
+      cities = clone
+
+      if from == to
+        neighbor_routes(from).each { |neighbor| distances[neighbor.to] = neighbor.distance }
+      else
+        distances[from] = 0
+      end
+
+      until cities.empty?
+        closest = cities.min_by { |city| distances[city] }
+        cities.delete closest
+
+        break if distances[closest] == Float::INFINITY
+
+        neighbor_routes(closest).each do |neighbor_route|
+          candidate_distance = distances[closest] + neighbor_route.distance
+          distances[neighbor_route.to] = candidate_distance if candidate_distance < distances[neighbor_route.to]
+        end
+      end
+      return distances[to]
+    end
+
 protected
 
     def check_cities! *cities
