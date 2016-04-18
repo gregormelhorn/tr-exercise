@@ -25,7 +25,9 @@ class NetworkTest < Minitest::Test
     assert_equal 5, @network.distance('A', 'D')
     assert_equal 13, @network.distance('A', 'D', 'C')
     assert_equal 22, @network.distance('A', 'E', 'B', 'C', 'D')
-    assert_equal Float::INFINITY, @network.distance('A', 'E', 'D')
+    assert_raises Trains::RouteNotFound do
+      @network.distance('A', 'E', 'D')
+    end
   end
 
   def test_max_stops

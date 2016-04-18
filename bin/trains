@@ -8,7 +8,9 @@ puts "Output #1: #{network.distance('A', 'B', 'C')}"
 puts "Output #2: #{network.distance('A', 'D')}"
 puts "Output #3: #{network.distance('A', 'D', 'C')}"
 puts "Output #4: #{network.distance('A', 'E', 'B', 'C', 'D')}"
-if network.distance('A', 'E', 'D') == Float::INFINITY
+begin
+  network.distance('A', 'E', 'D')
+rescue Trains::RouteNotFound
   puts "Output #5: NO SUCH ROUTE"
 end
 puts "Output #6: #{network.find_max_stops('C', 'C', 3).length}"
